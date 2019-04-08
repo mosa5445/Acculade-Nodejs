@@ -1,4 +1,4 @@
-const Course = require('../../models/course')
+﻿const Course = require('../../models/course')
 const validator = require('validator');
 
 
@@ -34,7 +34,7 @@ exports.submitNewCoursevalidate = async (req , res , next) => {
 
     /* 
     
-        If necessary images validation goas here 
+        If necessary images validation goes here 
 
     */
 
@@ -57,7 +57,7 @@ exports.submitNewCoursevalidate = async (req , res , next) => {
 
 exports.checkAdminAccess = async (req , res , next) => {
     if(req.user.access != 'admin')
-        return res.status(401).json({
+        return res.status(403).json({
             status: "Access Denied",
             msg: "دسترسی فقط برای مدیران محدود شده"
         })

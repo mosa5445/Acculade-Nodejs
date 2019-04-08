@@ -21,7 +21,7 @@ exports.isAuthenticate = async (req, res, next) => {
         }
     }
 
-    res.status(404).json({
+    res.status(401).json({
         status: "Login Needed",
         msg: "لطفا  وارد سایت شوید"
     })

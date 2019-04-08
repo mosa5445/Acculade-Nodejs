@@ -10,30 +10,10 @@ const  morgan = require('morgan')
 
 const cookieParser = require('cookie-parser')
 
-
-const multer = require('multer');
-
-
 const cors  = require('cors')
 
 
-//configuration
 
-const filestorage = multer.diskStorage({
-    destination:( req, file , cb)=>{
-        cb(null , 'upload/images')
-    } ,
-    filename: ( req, file , cb)=>{
-        cb(null , new Date().toISOString() + '-' + file.originalname)
-    } ,
-})
-
-const fileFilter = (req , file , cb)=>{
-    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg')
-        cb(null , true)
-
-    cb(null , false)
-}
 
 
 
@@ -74,16 +54,6 @@ app.use(bodyParser.json());
 
 
 app.use(cookieParser(`${process.env.COOCKIE_SIGN_PASSWORD}`));
-
-
-app.use(multer({
-    storage: filestorage , 
-    fileFilter: fileFilter
-})
-    .single('image'))
-
-
-
 
     
 //routes
