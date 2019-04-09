@@ -37,31 +37,16 @@ exports.submitNewCoursevalidate = async (req , res , next) => {
         If necessary images validation goes here 
 
     */
-
    if(validator.isEmpty(tag)) err.tag = "برای دوره تگ انتخاب کن";
 
-   if(validator.isEmpty(price)) err.price = "واقعا یادت رفت قیمت رو وارد کنی؟ ";
-
-   else if(price <= 1000) err.price = "لطفا مبلغ ورودی رو دوباره چک کن"
-
+   if(type == 'sale' && price <= 0) err.price = "لطفا مبلغ ورودی رو دوباره چک کن";
 
    if(err.title || err.content || err.slug || err.images || err.tag || err.price || err.type)
-   return res.status(406).json({
-    status: "Validation Failed",
-    msg:"لطفا ورود های خود را کنترل کنید",
-    err
-})
-    next();
-}
-
-
-exports.checkAdminAccess = async (req , res , next) => {
-    if(req.user.access != 'admin')
-        return res.status(403).json({
-            status: "Access Denied",
-            msg: "دسترسی فقط برای مدیران محدود شده"
-        })
-    
+    return res.status(406).json({
+        status: "Validation Failed",
+        msg:"لطفا ورود های خود را کنترل کنید",
+        err
+    })
     next();
 }
 

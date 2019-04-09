@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken')
 
 
 // دسترسی را برای کاربرای لوگین نشده محدود می کند
-exports.isAuthenticate = async (req, res, next) => {
-
+exports.isAuthenticate = async (req, res, next) => {    
     const token = req.body.token;
     if (token) {
         try {

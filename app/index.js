@@ -6,32 +6,27 @@ const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
 
-const  morgan = require('morgan')
+const morgan = require('morgan')
 
 const cookieParser = require('cookie-parser')
 
-const cors  = require('cors')
-
-
-
-
+const cors = require('cors')
 
 
 
 //db
 mongoose.connect(
     'mongodb://localhost:27017/acculade',
-     {
-         useNewUrlParser: true,
-         useCreateIndex: true} , 
-     (err)=> {
-        if(err)
+    {
+        useNewUrlParser: true,
+        useCreateIndex: true
+    },
+    (err) => {
+        if (err)
             console.log(err);
         else
             console.log('DB Connected');
-});
-
-
+    });
 
 
 
@@ -47,20 +42,20 @@ app.use((req , res , next)=>{
     next();
 })
 */
-app.use(bodyParser.json());
+app.use(express.static('public'));
 
+app.use(bodyParser.json());
 
 // app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
 
-
 app.use(cookieParser(`${process.env.COOCKIE_SIGN_PASSWORD}`));
 
-    
+
 //routes
 app.use(require('./routes'));
 
 //404
-app.use((req , res , next)=>{
+app.use((req, res, next) => {
     res.status(404).json({
         msg: "not found"
     })
