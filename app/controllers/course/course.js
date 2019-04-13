@@ -9,7 +9,6 @@ exports.sendCourseInfo = async (req , res , next) => {
     const course = await Course.findOne({slug: req.params.slug});
         if(course)
             return res.json(course)
-
             return res.status(404).send();
    } catch (err) {
     res.status(500).json({
