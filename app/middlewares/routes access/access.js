@@ -3,7 +3,7 @@ const User = require('../../models/user')
 
 
 exports.checkAdmin = async (req, res, next) => {
-    const token = req.body.token;
+    const token = req.body.token;  
     if (token) {
         try {
             const result = await jwt.verify(token, process.env.JSON_WEB_TOKEN_PRIVATE_KEY);

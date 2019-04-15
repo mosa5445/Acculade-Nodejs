@@ -32,7 +32,7 @@ routers.post('/logout', userCheck.isAuthenticate, authentication.logoutProcess)
 
 routers.post('/course/:slug', course.sendCourseInfo)
 
-routers.use('/admin', uploadImage.single('image'), access.checkAdmin, admin)
+routers.use('/admin', uploadImage.single('image') ,access.checkAdmin, admin)
 
 
 module.exports = routers;

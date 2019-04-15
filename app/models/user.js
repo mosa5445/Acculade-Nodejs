@@ -53,7 +53,7 @@ userSchema.methods.login = async function (user, input) {
     const access = this.access;
 
 
-    const token = await jwt.sign({ id: this._id.toHexString() , access}, process.env.JSON_WEB_TOKEN_PRIVATE_KEY, { expiresIn: "1h" }).toString();
+    const token = await jwt.sign({ id: this._id.toHexString() , access}, process.env.JSON_WEB_TOKEN_PRIVATE_KEY, { expiresIn: "1d" }).toString();
 
 
 
