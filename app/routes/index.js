@@ -4,7 +4,7 @@ const routers = express.Router();
 //controllers
 const authentication = require('../controllers/authentication/authenticationController');
 const passwordRecovery = require('../controllers/authentication/reset-password');
-const course = require('../controllers/course/course')
+const courses = require('../controllers/course/course')
 
 //middlewares
 const authValidation = require('../middlewares/authentication/registerMiddleWare');
@@ -30,7 +30,7 @@ routers.post('/reset-password/:token', userCheck.isLoggedin, passwordRecovery.re
 
 routers.post('/logout', userCheck.isAuthenticate, authentication.logoutProcess)
 
-routers.post('/course/:slug', course.sendCourseInfo)
+routers.get('/course/:slug', courses.sendCourseInfo)
 
 routers.use('/admin', uploadImage.single('image') ,access.checkAdmin, admin)
 

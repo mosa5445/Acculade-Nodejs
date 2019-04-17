@@ -11,8 +11,6 @@ exports.checkAdmin = async (req, res, next) => {
             const user = await User.findById(id)
 
             if (user && user.access === 'admin') {
-
-
                 next();
             }
             else

@@ -47,16 +47,8 @@ userSchema.methods.hashPassword = async function (data) {
 userSchema.methods.login = async function (user, input) {
     if (!bcrypt.compareSync(input, user))
         return false
-
-
-
     const access = this.access;
-
-
     const token = await jwt.sign({ id: this._id.toHexString() , access}, process.env.JSON_WEB_TOKEN_PRIVATE_KEY, { expiresIn: "1d" }).toString();
-
-
-
     this.token = token;
     this.save();
     return token;
