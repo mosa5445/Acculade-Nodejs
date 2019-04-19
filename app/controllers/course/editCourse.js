@@ -1,64 +1,17 @@
-const Course = require('../../models/course')
 const fs = require('fs')
 const sharp = require('sharp')
+const Course = require('../../models/course')
 
-exports.sendCourseInfo = async (req, res, next) => {
+exports.handle = async (req, res, next) => {
     try {
-
-        const course = await Course.findOne({ slug: req.params.slug });
-        if (course)
-            return res.json(course)
-        return res.status(404).send();
-    } catch (err) {
-        res.status(500).json({
-            status: "failed",
-            msg: "خطای سمت سرور",
-            err
-        });
-    }
-}
-
-// send add courses info
-exports.sendCoursesInfo = async (req, res, next) => {
-    let page = req.body.page || 1;
-    let courses = await Course.paginate({}, { page, sort: { updatedAt: -1 }, limit: 5 })
-
-    res.json({ courses })
-}
-
-
-exports.deleteCourse = async (req, res, next) => {
-    try {
-        let course = await Course.findById(req.body.id);
-        if (!course)
-            return res.status(402).send();
-        await Object.values(course.images).forEach(image => fs.unlinkSync(`./public/${image}`))
-        await Course.deleteOne(course);
-        return res.json({
-            status: "success",
-            msg: "دوره با موفقیت پاک شد"
-        })
-    } catch (err) {
-        return res.status(400).json({
-            status: "failed",
-            msg: "خطایی رخ داده",
-            err
-        })
-    }
-}
-
-exports.editCourse = async (req, res, next) => {
-    try {
-        const { id, slug, title, content, type, price, tag } = req.body;
+        let { id, slug, title, content, type, price, tag, episodes } = req.body;
 
         let course = await Course.findById(id);
 
         // search for double slug
         const result = await Course.findOne({ slug })
 
-
         if (result && result.slug != slug) {
-
             //remove uploaded picture if double slug found
             if (req.file)
                 fs.unlinkSync(`./${req.file.path}`)
@@ -69,15 +22,13 @@ exports.editCourse = async (req, res, next) => {
                 err: "این ادرس قبلا برای دوره ی دیگری به ثبت رسیده است ، لطفا ادرس دیگری انتخاب کنید"
             })
         }
-
+        //generate defferent sizes from original image 
         if (req.file) {
             var path;
             var images;
             if (req.file) {
-                path = req.file.destination.substring(9);
-                //generate defferent sizes from original image 
+                path = req.file.destination.substring(9);              
                 images = { 480: '', 720: '', 1080: '', original: `${path}/${req.file.filename}` }
-
                 let size = [480, 720, 1080]
 
                 for (let i = 0, success = false; i < 3; i++) {
@@ -92,15 +43,19 @@ exports.editCourse = async (req, res, next) => {
             Object.values(course.images).forEach(image => fs.unlinkSync(`./public/${image}`))
         }
 
-        if (req.file) course.images = images;
+        if (req.file) {
+            episodes = JSON.parse(episodes)
+            course.images = images;
+        }
         if (type == 'sale') course.price = price;
         else course.price = 0
         course.slug = slug
         course.title = title
         course.content = content
         course.type = type
-
         course.tag = tag
+        course.episodes = []
+        course.episodes = episodes
         await course.save();
         return res.json({
             status: "success",

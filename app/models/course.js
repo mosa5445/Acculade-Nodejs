@@ -1,50 +1,83 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 const courseSchema = new mongoose.Schema({
-    user:{
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     title: {
-        type: String , 
+        type: String,
         required: true,
     },
-    content:{
+    content: {
         type: String,
-        required : true,
+        required: true,
     },
-    images:{
+    images: {
         type: Object
     },
-    tag:{
+    tag: {
         type: String,
     },
-    time:{
+    time: {
         type: String,
-        default : '00:00:00'
+        default: '00:00:00'
     },
-    viewCount:{
-        type: String,
-        default: 0
-    },
-    commentCount:{
+    viewCount: {
         type: String,
         default: 0
     },
-    slug:{
+    commentCount: {
         type: String,
-        required : true,
-    },
-    type:{
-        type: String,
-        required : true,
-    },
-    price:{
-        type : Number,
         default: 0
     },
-},  {timestamps: true});
+    slug: {
+        type: String,
+        required: true,
+    },
+    type: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        default: 0
+    },
+    episodes: 
+        {
+            type: Array,
+            title: {
+                type: String,
+                required: true,
+            },
+            url: {
+                type: String,
+                required: true
+            },
+            time: {
+                type: String,
+                required: true
+            },
+            hour :{
+                type: Number,
+                required: true
+            },
+            min: {
+                type: Number,
+                required: true
+            },
+            sec : {
+                type: Number,
+                required: true
+            },
+            preview :{
+                type: Boolean,
+                default: false
+            }
+        }
+    
+}, { timestamps: true });
 
 courseSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('courses' , courseSchema);
+module.exports = mongoose.model('courses', courseSchema);

@@ -3,16 +3,18 @@ const router = express.Router();
 
 //controllers
 const newCourse = require('../controllers/course/newCourse')
-const Courses = require('../controllers/course/course')
+const pagination = require('../controllers/course/pagination')
+const deleteCourse = require('../controllers/course/deleteCourse')
+const editCourse = require('../controllers/course/editCourse')
 
 router.all('/' , (req , res , next) => res.status(200).send())
 
-router.post('/submit-new-course', newCourse.createNewCourse)
+router.post('/submit-new-course', newCourse.handle)
 
-router.post('/courses-info' , Courses.sendCoursesInfo )
+router.get('/courses-info' , pagination.handle )
 
-router.delete('/courses/remove' , Courses.deleteCourse)
+router.delete('/courses/remove' , deleteCourse.handle)
 
-router.put('/edit-course', Courses.editCourse)
+router.put('/edit-course', editCourse.handle)
 
 module.exports = router;

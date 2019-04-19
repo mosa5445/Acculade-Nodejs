@@ -8,8 +8,6 @@ const mongoose = require('mongoose');
 
 const morgan = require('morgan')
 
-const cookieParser = require('cookie-parser')
-
 const cors = require('cors')
 
 
@@ -48,8 +46,15 @@ app.use(bodyParser.json());
 
 // app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
 
-app.use(cookieParser(`${process.env.COOCKIE_SIGN_PASSWORD}`));
-
+//token handler
+app.use((req, res, next) => {
+    let token = req.get('token')
+    if (token) {
+        req.body.token = token;
+    }
+    // console.log('token' , token ,'\n\n', 'req.body.token' , req.body.token)
+    next();
+})
 
 //routes
 app.use(require('./routes'));
@@ -60,6 +65,14 @@ app.use((req, res, next) => {
         msg: "not found"
     })
 })
+
+// //500
+// app.use((err ,req, res, next) => {
+//     res.status(500).json({
+//         msg: "internal server error",
+//         err
+//     })
+// })
 
 
 module.exports = app;

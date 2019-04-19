@@ -93,11 +93,11 @@ exports.resetPassword = async (req, res, next) => {
 
     // send mail with defined transport object
     try {
-        let info = await transporter.sendMail(mailOptions)
+        await transporter.sendMail(mailOptions)
     } catch (err) {
         return res.status(500).json({
             status: "failed",
-            mas: "cant send email"
+            mas: "ایمیل بازیابی ارسال نشد ، لطفا دوباره امتحان کنید"
         })
     }
 

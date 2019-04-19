@@ -13,7 +13,6 @@
     "auto-bind": "^2.0.0",
     "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",

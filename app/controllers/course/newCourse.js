@@ -1,10 +1,12 @@
 const Course = require('../../models/course');
 const fs = require('fs')
 const sharp = require('sharp');
-exports.createNewCourse = async (req, res, next) => {
 
-    let { slug, title, content, type, price, tag } = req.body;
+exports.handle = async (req, res, next) => {
 
+    let { slug, title, content, type, price, tag, episodes } = req.body;
+
+    episodes = JSON.parse(episodes)
 
     //check for double slug
     const result = await Course.findOne({ slug })
@@ -16,14 +18,14 @@ exports.createNewCourse = async (req, res, next) => {
             err: "این ادرس قبلا برای دوره ی دیگری به ثبت رسیده است ، لطفا ادرس دیگری انتخاب کنید"
         })
     }
+
+    //generate defferent sizes from original image
     try {
-        //generate defferent sizes from original image
         let path;
         var images;
         if (req.file) {
             path = req.file.destination.substring(9);
-            images = { 480: '', 720: '', 1080: '' , original: `${path}/${req.file.filename}`}
-           
+            images = { 480: '', 720: '', 1080: '', original: `${path}/${req.file.filename}` }
             let size = [480, 720, 1080]
 
             for (let i = 0, success = false; i < 3; i++) {
@@ -33,31 +35,33 @@ exports.createNewCourse = async (req, res, next) => {
                 images[size[i]] = `${path}/${size[i]}-${req.file.filename}`
             }
             path = req.file.path.substring(7)
-            //    await fs.unlink(path, (err) => { console.log(err) })
-
         }
-        await new Course({
+
+        //save course
+        new Course({
             slug,
             title,
             content,
             type,
             price,
             tag,
-            images
-        }).save();
+            images,
+            episodes
+        }).save().then((err) => console.log(err));
         return res.status(201).json({
             status: "succes",
             msg: "اطلاعات دوره جدید ثبت شد"
         })
+
     } catch (err) {
         if (req.file)
-            fs.unlinkSync(`./${req.file.path}`)
+            // fs.unlinkSync(`./${req.file.path}`)
 
-        return res.status(400).json({
-            status: "failed",
-            msg: "دوره جدید ایجاد نشد",
-            err
-        })
+            return res.status(400).json({
+                status: "failed",
+                msg: "دوره جدید ایجاد نشد",
+                err
+            })
     }
 
 }

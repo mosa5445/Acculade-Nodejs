@@ -4,9 +4,8 @@ const mkdirp = require('mkdirp')
 const getDirImage = () => {
     let year = new Date().getFullYear();
     let month = new Date().getMonth() + 1;
-    let day = new Date().getDate();
 
-    return `./public/uploads/images/${year}/${month}/${day}`;
+    return `./public/uploads/images/${year}/${month}`;
 }
 
 
