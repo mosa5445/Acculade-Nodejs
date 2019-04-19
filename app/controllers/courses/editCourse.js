@@ -4,7 +4,7 @@ const Course = require('../../models/course')
 
 exports.handle = async (req, res, next) => {
     try {
-        let { id, slug, title, content, type, price, tag, episodes } = req.body;
+        let { id, slug, title, content, type, price, tag, episodes , time } = req.body;
 
         let course = await Course.findById(id);
 
@@ -54,6 +54,7 @@ exports.handle = async (req, res, next) => {
         course.content = content
         course.type = type
         course.tag = tag
+        course.time = time
         course.episodes = []
         course.episodes = episodes
         await course.save();

@@ -1,10 +1,10 @@
 const express = require('express');
-const routers = express.Router();
+const router = express.Router();
 
 //controllers
 const authentication = require('../controllers/authentication/authenticationController');
 const passwordRecovery = require('../controllers/authentication/reset-password');
-const sendCourseInfo = require('../controllers/course/sendCourseInfo')
+const sendCourseInfo = require('../controllers/courses/sendCourseInfo')
 
 //middlewares
 const authValidation = require('../middlewares/authentication/registerMiddleWare');
@@ -18,21 +18,21 @@ const admin = require('./admin')
 
 
 //routes
-routers.post('/register', userCheck.isLoggedin, authValidation.registerValidation, authentication.registerProcess)
+router.post('/register', userCheck.isLoggedin, authValidation.registerValidation, authentication.registerProcess)
 
-routers.post('/login', userCheck.isLoggedin, authentication.loginProcess)
+router.post('/login', userCheck.isLoggedin, authentication.loginProcess)
 
-routers.post('/reset-password', userCheck.isLoggedin, passwordRecovery.resetPassword)
+router.post('/reset-password', userCheck.isLoggedin, passwordRecovery.resetPassword)
 
-routers.post('/reset-password-check/:token', userCheck.isLoggedin, passwordRecovery.resetPasswordCheck)
+router.post('/reset-password-check/:token', userCheck.isLoggedin, passwordRecovery.resetPasswordCheck)
 
-routers.post('/reset-password/:token', userCheck.isLoggedin, passwordRecovery.resetPasswordProcess)
+router.post('/reset-password/:token', userCheck.isLoggedin, passwordRecovery.resetPasswordProcess)
 
-routers.post('/logout', userCheck.isAuthenticate, authentication.logoutProcess)
+router.post('/logout', userCheck.isAuthenticate, authentication.logoutProcess)
 
-routers.get('/course/:slug', sendCourseInfo.handle)
+router.get('/course/:slug', sendCourseInfo.handle)
 
-routers.use('/admin', uploadImage.single('image') ,access.checkAdmin, admin)
+router.use('/admin', uploadImage.single('image') ,access.checkAdmin, admin)
 
 
-module.exports = routers;
+module.exports = router;

@@ -4,7 +4,7 @@ const sharp = require('sharp');
 
 exports.handle = async (req, res, next) => {
 
-    let { slug, title, content, type, price, tag, episodes } = req.body;
+    let { slug, title, content, type, price, tag, episodes , time} = req.body;
 
     episodes = JSON.parse(episodes)
 
@@ -45,9 +45,10 @@ exports.handle = async (req, res, next) => {
             type,
             price,
             tag,
+            time,
             images,
             episodes
-        }).save().then((err) => console.log(err));
+        }).save().then();
         return res.status(201).json({
             status: "succes",
             msg: "اطلاعات دوره جدید ثبت شد"

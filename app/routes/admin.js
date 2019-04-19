@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 //controllers
-const newCourse = require('../controllers/course/newCourse')
-const pagination = require('../controllers/course/pagination')
-const deleteCourse = require('../controllers/course/deleteCourse')
-const editCourse = require('../controllers/course/editCourse')
+const newCourse = require('../controllers/courses/newCourse')
+const pagination = require('../controllers/courses/pagination')
+const deleteCourse = require('../controllers/courses/deleteCourse')
+const editCourse = require('../controllers/courses/editCourse')
 
 router.all('/' , (req , res , next) => res.status(200).send())
 
