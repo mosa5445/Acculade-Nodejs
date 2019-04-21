@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
-const courseSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+const Schema = mongoose.Schema
+const courseSchema = new Schema({
+    updator: [
+        {
+            type:  Schema.Types.ObjectId,      
+            ref: 'user',      
+        }
+    ],
+    creator :{
+        type:  Schema.Types.ObjectId,      
+        ref: 'user',      
     },
     title: {
         type: String,
@@ -73,6 +80,7 @@ const courseSchema = new mongoose.Schema({
             preview :{
                 type: Boolean,
                 default: false
+                
             }
         }
     

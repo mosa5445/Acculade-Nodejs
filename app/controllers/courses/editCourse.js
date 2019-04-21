@@ -54,6 +54,7 @@ exports.handle = async (req, res, next) => {
         course.content = content
         course.type = type
         course.tag = tag
+        course.updator.push(req.userId)
         course.time = time
         course.episodes = []
         course.episodes = episodes

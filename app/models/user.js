@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'user'
     }
-}, { timestamps: true })
+}, { timestamps: true, toJSON: { virtuals: true } })
 
 
 
@@ -48,12 +48,16 @@ userSchema.methods.login = async function (user, input) {
     if (!bcrypt.compareSync(input, user))
         return false
     const access = this.access;
-    const token = await jwt.sign({ id: this._id.toHexString() , access}, process.env.JSON_WEB_TOKEN_PRIVATE_KEY, { expiresIn: "1d" }).toString();
+    const token = await jwt.sign({ id: this._id.toHexString(), access }, process.env.JSON_WEB_TOKEN_PRIVATE_KEY, { expiresIn: "1d" }).toString();
     this.token = token;
     this.save();
     return token;
-
 }
 
+userSchema.virtual('submitedCourses', {
+    ref : 'courses',
+    localField: '_id',
+    foreignField: 'creator'
+})
 
 module.exports = mongoose.model('user', userSchema);

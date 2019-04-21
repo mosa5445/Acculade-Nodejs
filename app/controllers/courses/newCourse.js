@@ -47,7 +47,8 @@ exports.handle = async (req, res, next) => {
             tag,
             time,
             images,
-            episodes
+            episodes,
+            creator : req.userId
         }).save().then();
         return res.status(201).json({
             status: "succes",

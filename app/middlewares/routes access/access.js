@@ -8,6 +8,7 @@ exports.checkAdmin = async (req, res, next) => {
         try {
             const result = await jwt.verify(token, process.env.JSON_WEB_TOKEN_PRIVATE_KEY);
             let id = result.id;
+            req.userId = id;
             const user = await User.findById(id)
 
             if (user && user.access === 'admin') {
