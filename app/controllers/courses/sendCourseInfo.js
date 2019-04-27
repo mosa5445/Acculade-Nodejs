@@ -8,7 +8,11 @@ exports.handle = async (req, res, next) => {
         if (course) {           
             course.viewCount ++;
             course.save();
-            return res.json(course)
+            let mycourse = course
+            mycourse.episodes.forEach((episode , index) => {
+                episode.url = `${process.env.SERVER_ADDRESS}/course/${mycourse._id}/episode?index=${index}`
+            });
+            return res.json(mycourse)
         }
         return res.status(404).send();
     } catch (err) {

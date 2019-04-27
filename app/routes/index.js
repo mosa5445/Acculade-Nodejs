@@ -6,6 +6,7 @@ const authentication = require('../controllers/authentication/authenticationCont
 const passwordRecovery = require('../controllers/authentication/reset-password');
 const sendCourseInfo = require('../controllers/courses/sendCourseInfo')
 const pagination = require('../controllers/courses/pagination')
+const dlCourseEpisode =  require('../controllers/courses/dlCourseEpisode')
 
 //middlewares
 const authValidation = require('../middlewares/authentication/registerMiddleWare');
@@ -35,6 +36,7 @@ router.get('/course' , pagination.handle )
 
 router.get('/course/:slug', sendCourseInfo.handle)
 
+router.get('/course/:id/episode?:index' , dlCourseEpisode.handle)
 
 router.use('/admin', uploadImage.single('image'), access.checkAdmin, admin)
 

@@ -8,6 +8,5 @@ exports.handle = async (req, res, next) => {
         limit: 6,
         select: '_id title slug images content time viewCount commentCount type price'
     })
-
     res.json({ courses })
 }
